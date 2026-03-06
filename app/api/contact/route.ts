@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import { getAdminEmailTemplate, getCustomerEmailTemplate } from '@/lib/emailTemplates'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -22,22 +23,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const mailOptions = {
-      from: process.env.SMTP_FROM_EMAIL,
-      to: 'info@prasklatechnology.com',
-      subject: `New Contact Form Submission from ${name}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+    // Email to admin (you)
+    const adminMailOptions = {
+      from: `"Praskla Technology" <${process.env.SMTP_FROM_EMAIL}>`,
+      to: process.env.SMTP_TO_EMAIL || 'suryakumar56394@gmail.com',
+      subject: `🚀 New Contact Form Submission from ${name}`,
+      html: getAdminEmailTemplate({ name, email, phone, message }),
       replyTo: email,
     }
 
-    await transporter.sendMail(mailOptions)
+    // Email to customer (confirmation)
+    const customerMailOptions = {
+      from: `"Praskla Technology" <${process.env.SMTP_FROM_EMAIL}>`,
+      to: email,
+      subject: '✨ Thank You for Contacting Praskla Technology',
+      html: getCustomerEmailTemplate(name),
+    }
+
+    // Send both emails
+    await Promise.all([
+      transporter.sendMail(adminMailOptions),
+      transporter.sendMail(customerMailOptions),
+    ])
 
     return NextResponse.json(
       { message: 'Email sent successfully' },

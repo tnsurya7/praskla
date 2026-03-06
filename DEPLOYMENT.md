@@ -26,19 +26,15 @@
 
 In Vercel Dashboard → Settings → Environment Variables, add:
 
-```
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your-email@gmail.com
-SMTP_PASSWORD=your-app-password
-SMTP_FROM_EMAIL=noreply@prasklatechnology.com
-```
 
 **For Gmail:**
 1. Enable 2-factor authentication
 2. Generate App Password: https://myaccount.google.com/apppasswords
 3. Use the 16-character app password (not your regular password)
+
+**Note:** The contact form will send:
+- **Admin notification** to `SMTP_TO_EMAIL` with contact details
+- **Customer confirmation** to the customer's email with a thank you message
 
 **For SendGrid:**
 ```

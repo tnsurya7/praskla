@@ -145,10 +145,30 @@ colors: {
 
 ### Vercel (Recommended)
 
-1. Push to GitHub
-2. Connect repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tnsurya7/praskla)
+
+#### Quick Steps:
+1. Click the "Deploy with Vercel" button above
+2. Connect your GitHub account
+3. Add environment variables (SMTP credentials)
+4. Click Deploy
+
+#### Manual Deployment:
+1. Push to GitHub (already done)
+2. Go to https://vercel.com/new
+3. Import repository: `tnsurya7/praskla`
+4. Add environment variables in Vercel dashboard:
+   - `SMTP_HOST`
+   - `SMTP_PORT`
+   - `SMTP_SECURE`
+   - `SMTP_USER`
+   - `SMTP_PASSWORD`
+   - `SMTP_FROM_EMAIL`
+5. Click Deploy
+
+**See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment guide.**
+
+### Local Production Build
 
 ```bash
 npm run build
